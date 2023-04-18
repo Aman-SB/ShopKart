@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
@@ -22,15 +23,25 @@ import javafx.scene.text.Text;
 public class UserInterface {
     
     GridPane login_Page;
+    
     HBox header_Bar;
+    
     Customer LoggedInCustomer;
     
+    ProductList product_List = new ProductList();
+    
+    VBox Product_Page;
+        
     public BorderPane createContent(){
         //main pane (screen)
         BorderPane root = new BorderPane();
         root.setPrefSize(800, 600);
         root.setTop(header_Bar);
-        root.setCenter(login_Page); 
+//        root.setCenter(login_Page); 
+        
+        Product_Page = product_List.createTable();
+        root.setCenter(Product_Page);
+        
         return root;
     }
 
