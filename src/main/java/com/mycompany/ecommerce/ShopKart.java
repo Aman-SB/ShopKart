@@ -12,14 +12,11 @@ import javafx.stage.Stage;
  */
 public class ShopKart extends Application {
 
-    private Pane createContent(){
-        Pane root = new Pane();
-        return root;
-    }
+    UserInterface userInterface =  new UserInterface();
     
     @Override
     public void start(Stage stage) {
-        Scene scene = new Scene(createContent());
+        Scene scene = new Scene(userInterface.createContent( ));
         stage.setTitle("ShopKart");
         stage.setScene(scene);
         stage.show();
