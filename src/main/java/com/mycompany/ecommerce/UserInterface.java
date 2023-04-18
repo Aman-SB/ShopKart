@@ -23,8 +23,10 @@ public class UserInterface {
     
     GridPane login_Page;
     HBox header_Bar;
+    Customer LoggedInCustomer;
     
     public BorderPane createContent(){
+        //main pane (screen)
         BorderPane root = new BorderPane();
         root.setPrefSize(800, 600);
         root.setTop(header_Bar);
@@ -66,7 +68,16 @@ public class UserInterface {
         
         login_Button.setOnAction((t) -> {
             String user_Name = userName_TextField.getText();
-            message_label.setText(user_Name);
+            String password = password_PasswordField.getText();
+            
+            Login login = new Login();
+            LoggedInCustomer = login.customerLogin(user_Name, password);
+            if(LoggedInCustomer != null){
+                message_label.setText("Welcome : " + LoggedInCustomer.getName());
+            }
+            else{
+                message_label.setText("Login Failed !! please give correct user name and password.");
+            }
         });
    }
     
