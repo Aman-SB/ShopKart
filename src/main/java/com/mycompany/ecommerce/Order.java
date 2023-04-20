@@ -5,6 +5,7 @@
 package com.mycompany.ecommerce;
 
 import java.sql.ResultSet;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -28,4 +29,23 @@ public class Order {
         return false;
     }
     
+    public static int placeMultipleProduct(Customer customer, ObservableList<Product> product_List){
+        String group_Order_Id = "SELECT MAX(group_order_id) +1 id FROM orders";
+        DbConnection dbConnection = new DbConnection();
+        try{
+            ResultSet result = dbConnection.getQueryTable(group_Order_Id);
+            int count_Product = 0;
+            if(result.next()){
+                for(Product product : product_List){
+                String PlaceOrder = "INSERT INTO orders(group_order_id,customer_id,product_id) VALUES ("+result.getInt("id")+","+customer.getId()+","+product.getId()+")";
+                count_Product += dbConnection.update_Database(PlaceOrder);
+                }
+                return count_Product;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
