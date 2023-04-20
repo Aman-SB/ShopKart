@@ -41,6 +41,17 @@ public class DbConnection {
         return null;
     }
     
+    public int update_Database(String query){
+        try{
+            Statement statement = getStatement();
+            return statement.executeUpdate(query);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        };
+        return 0;
+    }
+    
     public static void main(String[] args) {
         DbConnection connection = new DbConnection();
         ResultSet result = connection.getQueryTable("SELECT * FROM customer");//data coming from the sql database
