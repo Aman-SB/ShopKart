@@ -46,6 +46,8 @@ public class UserInterface {
     
     VBox Product_Page;
     
+    VBox order_page;
+    
     Button place_Order_Button = new Button("Place Order");
     
     ObservableList<Product> item_In_A_Cart = FXCollections.observableArrayList();
@@ -79,10 +81,10 @@ public class UserInterface {
         Text user_Password = new Text("Password");
         
         // username text field and password texrt field
-        TextField userName_TextField = new TextField("aman@gmail.com"); 
+        TextField userName_TextField = new TextField(""); 
         userName_TextField.setPromptText("Type your username here");
         PasswordField password_PasswordField = new PasswordField();
-        password_PasswordField.setText("1234");
+        password_PasswordField.setText("");
         password_PasswordField.setPromptText("Type your passowrd here");
         
         Label message_label = new Label("Hi");
@@ -160,6 +162,7 @@ public class UserInterface {
             header_Bar.getChildren().remove(sign_in_Button);
         });
         
+        //cart button action
         cart_Button.setOnAction((t) -> {
            body.getChildren().clear();
            VBox product_Page = product_List.createTable(item_In_A_Cart);
@@ -191,6 +194,7 @@ public class UserInterface {
             }
         });
         
+        //home button action
         home_Button.setOnAction((t) -> {
            body.getChildren().clear();
            body.getChildren().add(Product_Page);
@@ -198,6 +202,13 @@ public class UserInterface {
             if (LoggedInCustomer == null&& header_Bar.getChildren().indexOf(sign_in_Button) == -1) {
                 header_Bar.getChildren().add(sign_in_Button);
             }
+        });
+        
+        //order button action
+        order_Button.setOnAction((t) -> {
+            body.getChildren().clear();
+//            body.getChildren().add(order_Page);
+            
         });
    }
     
