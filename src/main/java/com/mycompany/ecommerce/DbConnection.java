@@ -24,9 +24,8 @@ public class DbConnection {
             Connection connection = DriverManager.getConnection(database_Url , userName , password);
             return connection.createStatement();
         }
-        catch(Exception e){
-            e.printStackTrace();
-        };
+        catch(SQLException e){
+        }
         return null;
     }
     
@@ -35,9 +34,8 @@ public class DbConnection {
             Statement statement = getStatement();
             return statement.executeQuery(query);
         }
-        catch(Exception e){
-            e.printStackTrace();
-        };
+        catch(SQLException e){
+        }
         return null;
     }
     
@@ -46,9 +44,8 @@ public class DbConnection {
             Statement statement = getStatement();
             return statement.executeUpdate(query);
         }
-        catch(Exception e){
-            e.printStackTrace();
-        };
+        catch(SQLException e){
+        }
         return 0;
     }
     

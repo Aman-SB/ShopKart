@@ -6,6 +6,7 @@ package com.mycompany.ecommerce;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -45,11 +46,12 @@ public class UserInterface {
     ProductList product_List = new ProductList();
     
     VBox Product_Page;
-    
-    VBox order_page;
+        
+    OrderList order_List = new OrderList();
     
     Button place_Order_Button = new Button("Place Order");
     
+    //extracting data of product
     ObservableList<Product> item_In_A_Cart = FXCollections.observableArrayList();
         
     public BorderPane createContent(){
@@ -205,10 +207,18 @@ public class UserInterface {
         });
         
         //order button action
-        order_Button.setOnAction((t) -> {
+        order_Button.setOnAction((ActionEvent t) -> {
             body.getChildren().clear();
-//            body.getChildren().add(order_Page);
+            //extracting data from database and setting into vertical box
+            VBox ordered_Page_Extraction = order_List.getAllProducts();
             
+            if(ordered_Page_Extraction == null)
+            {
+                showDialogueError("Please ordered something !!");
+                return;
+            }
+            body.getChildren().add(ordered_Page_Extraction);
+            footer_Bar.setVisible(false);
         });
    }
     

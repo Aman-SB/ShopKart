@@ -5,6 +5,7 @@
 package com.mycompany.ecommerce;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.collections.ObservableList;
 
 /**
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
  */
 public class Order {
     
+    //method if we place order
     public static boolean placeOrder(Customer customer, Product product){
         String group_Order_Id = "SELECT MAX(group_order_id) +1 id FROM orders";
         DbConnection dbConnection = new DbConnection();
@@ -29,6 +31,7 @@ public class Order {
         return false;
     }
     
+    //method to update the database
     public static int placeMultipleProduct(Customer customer, ObservableList<Product> product_List){
         String group_Order_Id = "SELECT MAX(group_order_id) +1 id FROM orders";
         DbConnection dbConnection = new DbConnection();
@@ -43,8 +46,7 @@ public class Order {
                 return count_Product;
             }
         }
-        catch(Exception e){
-            e.printStackTrace();
+        catch(SQLException e){
         }
         return 0;
     }

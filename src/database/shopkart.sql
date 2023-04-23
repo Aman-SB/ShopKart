@@ -46,4 +46,4 @@ INSERT INTO orders(group_order_id,customer_id,product_id) VALUES (1,1,1);
 
 SELECT MAX(group_order_id) +1 id FROM orders;
 
-SELECT orders.id , product.name , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id;
+SELECT orders.id , product.name , product.price , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id;

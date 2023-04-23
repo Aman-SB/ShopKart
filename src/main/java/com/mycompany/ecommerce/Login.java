@@ -4,11 +4,8 @@
  */
 package com.mycompany.ecommerce;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
-
+import java.sql.SQLException;
 /**
  *
  * @author bisht
@@ -25,8 +22,7 @@ public class Login {
                         , result.getString("email") , result.getString("mobile"));
             }
         }
-        catch(Exception e){
-            e.printStackTrace();
+        catch(SQLException e){
         }
         return null;
     }

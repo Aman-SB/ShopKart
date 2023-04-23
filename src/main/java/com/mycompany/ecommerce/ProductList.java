@@ -4,7 +4,6 @@
  */
 package com.mycompany.ecommerce;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
@@ -44,15 +43,18 @@ public class ProductList {
         return vBox;
     }
     
+    //getting all the products in Vertical Box
     public VBox getAllProducts(){ 
         ObservableList<Product> data = Product.getAllProduct();
         return createTable(data);
     }
     
+    //here only selected data can be seen
     public Product getSelectedProduct(){
         return product_Table.getSelectionModel().getSelectedItem();
     }
     
+    //here cart data can be seen
     public VBox getProductInCart(ObservableList<Product> data){
         return createTable(data);
     }

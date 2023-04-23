@@ -9,9 +9,13 @@ package com.mycompany.ecommerce;
  * @author bisht
  */
 public class Customer {
-    private int id;
+    private final int id;
     
-    private String name , email , mobile;
+    private final String name;
+    
+    private final String email;
+    
+    private final String mobile;
     
     public Customer(int id , String name , String email , String mobile){
         this.id = id;
