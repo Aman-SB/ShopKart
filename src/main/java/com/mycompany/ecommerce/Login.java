@@ -11,7 +11,6 @@ import java.sql.SQLException;
  * @author bisht
  */
 public class Login {
-    
     public Customer customerLogin(String userName,String password){
         String login_Query = "SELECT * FROM customer WHERE email = '"+userName+"' and password ='"+password+"'";
         DbConnection connection = new DbConnection();
@@ -31,5 +30,6 @@ public class Login {
         Login login = new Login();
         Customer customer = login.customerLogin("aman@gmail.com", "1234");
         System.out.println("Welcome: " + customer.getName());
+
     }
 }

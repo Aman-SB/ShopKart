@@ -207,10 +207,14 @@ public class UserInterface {
         });
         
         //order button action
-        order_Button.setOnAction((ActionEvent t) -> {
+        order_Button.setOnAction((var t) -> {
+            if(LoggedInCustomer == null){
+                showDialogueError("please login first to placed a order!");
+                return;
+            }
             body.getChildren().clear();
             //extracting data from database and setting into vertical box
-            VBox ordered_Page_Extraction = order_List.getAllProducts();
+            VBox ordered_Page_Extraction = order_List.getAllProducts(LoggedInCustomer.getId());
             
             if(ordered_Page_Extraction == null)
             {

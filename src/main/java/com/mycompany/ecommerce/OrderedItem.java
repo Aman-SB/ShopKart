@@ -40,8 +40,8 @@ public class OrderedItem {
         this.status = new SimpleStringProperty(status);
     }
     
-    public static ResultSet getAllOrdered(){
-        String select_All_Orders = "SELECT orders.id , product.name , product.price , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id";
+    public static ResultSet getAllOrdered(int cust_id){
+        String select_All_Orders = "SELECT orders.id , product.name , product.price , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id WHERE orders.customer_id = '"+cust_id+"'";
         return fetchProductionDataFromDB(select_All_Orders);
     }
     

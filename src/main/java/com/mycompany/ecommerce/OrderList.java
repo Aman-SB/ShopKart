@@ -20,6 +20,8 @@ import javafx.scene.layout.VBox;
  */
 public class OrderList {
     
+    private Login login_details = new Login();
+    
     private TableView<OrderedItem> order_Product;
     
     public VBox createTable(ObservableList<OrderedItem> data){
@@ -53,8 +55,8 @@ public class OrderList {
         return vBox;
     }
     
-    public VBox getAllProducts(){ 
-        ResultSet result = OrderedItem.getAllOrdered();
+    public VBox getAllProducts(int cust_id){ 
+        ResultSet result = OrderedItem.getAllOrdered(cust_id);
         ObservableList<OrderedItem> data = FXCollections.observableArrayList();
         try{
             while(result.next()){
