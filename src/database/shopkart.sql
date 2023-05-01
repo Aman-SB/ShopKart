@@ -46,4 +46,22 @@ INSERT INTO orders(group_order_id,customer_id,product_id) VALUES (1,1,1);
 
 SELECT MAX(group_order_id) +1 id FROM orders;
 
-SELECT orders.id , product.name , product.price , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id ;
+SELECT orders.id , product.name , product.price , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id WHERE orders.customer_id = 1 ;
+
+-- deactivating safe mode
+
+SET SQL_SAFE_UPDATES = 0;
+
+-- updating encryption password
+
+UPDATE customer SET password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4" WHERE name = "aman";
+
+UPDATE customer SET password = "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0" WHERE name = "ankit";
+
+UPDATE customer SET password = "0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c" WHERE name = "ajay";
+
+-- activating safe mode
+
+SET SQL_SAFE_UPDATES = 1;
+
+UPDATE customer SET name = "Ajay" where id = 3 ;

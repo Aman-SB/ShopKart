@@ -6,7 +6,6 @@ package com.mycompany.ecommerce;
 
 import java.sql.Date;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;

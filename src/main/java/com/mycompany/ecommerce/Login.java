@@ -4,6 +4,7 @@
  */
 package com.mycompany.ecommerce;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 /**
@@ -11,8 +12,10 @@ import java.sql.SQLException;
  * @author bisht
  */
 public class Login {
-    public Customer customerLogin(String userName,String password){
-        String login_Query = "SELECT * FROM customer WHERE email = '"+userName+"' and password ='"+password+"'";
+    public Customer customerLogin(String userName,String password) throws NoSuchAlgorithmException{
+        byte[] byte_password = Encryption.getSHA(password);
+        String encrypted_Password = Encryption.toHexString(byte_password);
+        String login_Query = "SELECT * FROM customer WHERE email = '"+userName+"' and password ='"+encrypted_Password+"'";
         DbConnection connection = new DbConnection();
         ResultSet result = connection.getQueryTable(login_Query);
         try{
@@ -26,9 +29,9 @@ public class Login {
         return null;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         Login login = new Login();
-        Customer customer = login.customerLogin("aman@gmail.com", "1234");
+        Customer customer = login.customerLogin("","");
         System.out.println("Welcome: " + customer.getName());
 
     }

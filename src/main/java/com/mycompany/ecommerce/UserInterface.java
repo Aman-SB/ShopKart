@@ -4,6 +4,9 @@
  */
 package com.mycompany.ecommerce;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,6 +53,8 @@ public class UserInterface {
     OrderList order_List = new OrderList();
     
     Button place_Order_Button = new Button("Place Order");
+    
+    final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
     
     //extracting data of product
     ObservableList<Product> item_In_A_Cart = FXCollections.observableArrayList();
@@ -105,12 +110,17 @@ public class UserInterface {
         login_Page.add(message_label, 0, 2);
         login_Page.add(login_Button, 1, 2);
         
-        login_Button.setOnAction((t) -> {
+        login_Button.setOnAction((ActionEvent t) -> {
             String user_Name = userName_TextField.getText();
             String password = password_PasswordField.getText();
             
             Login login = new Login();
-            LoggedInCustomer = login.customerLogin(user_Name, password);
+            try {
+                LoggedInCustomer = login.customerLogin(user_Name, password);
+            } catch (NoSuchAlgorithmException ex) {
+                // For specifying wrong message digest algorithms
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if(LoggedInCustomer != null){
                 message_label.setText("Welcome : " + LoggedInCustomer.getName());
                 welcome_Label.setText("Welcome " + LoggedInCustomer.getName());
@@ -125,7 +135,7 @@ public class UserInterface {
    }
     
     private void createHeaderBar(){ //creation of header bar
-        
+        //Home button
         Button home_Button = new Button();
         Image image = new Image("file:///E:/Java/learning_application/Ecommerce/src/main/image/shopkart.png");
         
@@ -135,25 +145,60 @@ public class UserInterface {
         image_view.setFitHeight(20);
         home_Button.setGraphic(image_view);
         home_Button.setAlignment(Pos.TOP_LEFT);
+        
         //search text field
         TextField search_bar = new TextField();
         search_bar.setPromptText("Search here");
         search_bar.setPrefWidth(200);
+        //search bar style
+        search_bar.setStyle("-fx-font: normal bold 15px 'serif' ");
         
         //search text button
         Button search_Button = new Button("Search");
+        //setting image in the button
+        ImageView search_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/pngegg.png");
+        search_Button_view.setFitWidth(20);
+        search_Button_view.setFitHeight(20);
+        search_Button.setGraphic(search_Button_view);
+        //setting styling in the button
+        search_Button.setOnMouseEntered(e -> search_Button.setStyle(HOVERED_BUTTON_STYLE));
         
+        //Sign IN button 
         sign_in_Button = new Button("Sign In");
+        //setting image in the button
+        ImageView sign_in_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/sign_in.png");
+        sign_in_view.setFitWidth(20);
+        sign_in_view.setFitHeight(20);
+        sign_in_Button.setGraphic(sign_in_view);
+        //setting styling in the button
+        sign_in_Button.setOnMouseEntered(e -> sign_in_Button.setStyle(HOVERED_BUTTON_STYLE));
         
         welcome_Label = new Label();
         
+        //CART BUTTON
         Button cart_Button = new Button("Cart");
+        //setting image in the button
+        ImageView cart_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/shopping-cart.png");
+        cart_Button_view.setFitWidth(20);
+        cart_Button_view.setFitHeight(20);
+        cart_Button.setGraphic(cart_Button_view);
+        //setting styling in the button
+        cart_Button.setOnMouseEntered(e -> cart_Button.setStyle(HOVERED_BUTTON_STYLE));
         
+        //ORDER BUTTON
         Button order_Button = new Button("Orders");
+        //setting image in the button
+        ImageView order_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/orders-icon.png");
+        order_Button_view.setFitWidth(20);
+        order_Button_view.setFitHeight(20);
+        order_Button.setGraphic(order_Button_view);
+        //setting styling in the button
+        order_Button.setOnMouseEntered(e -> order_Button.setStyle(HOVERED_BUTTON_STYLE));
         
+        //Header bar
         header_Bar = new HBox();
         header_Bar.setPadding(new Insets(10));
-        header_Bar.setSpacing(10);
+        header_Bar.setSpacing(15);
         header_Bar.setAlignment(Pos.CENTER);
         header_Bar.getChildren().addAll(home_Button, search_bar , search_Button , sign_in_Button , cart_Button , order_Button);
         
@@ -171,9 +216,17 @@ public class UserInterface {
            product_Page.setAlignment(Pos.CENTER);
            product_Page.getChildren().add(place_Order_Button);
            body.getChildren().add(product_Page);
+           //adding image to place order button
+           ImageView place_Order_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/place_orders.png");
+           place_Order_Button_view.setFitWidth(20);
+           place_Order_Button_view.setFitHeight(20);
+           place_Order_Button.setGraphic(place_Order_Button_view);
+           //setting styling in the button
+           order_Button.setOnMouseEntered(e -> order_Button.setStyle(HOVERED_BUTTON_STYLE));
            footer_Bar.setVisible(false);//all cases need to be handled
         });
         
+        //Action on place order button
         place_Order_Button.setOnAction((t) -> {
             //need list of product
        
@@ -190,6 +243,7 @@ public class UserInterface {
             
             if(order_Count != 0){
                 showDialogueSuccess("Order for "+order_Count+" products placed Successfully!!");
+                item_In_A_Cart.clear();
             }
             else{
                 showDialogueError("Order Failed!!");
@@ -230,12 +284,27 @@ public class UserInterface {
                 
         //buy button
         Button buy_Now_Button = new Button("Buy");
+        //setting image in the button
+        ImageView buy_Now_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/buy_button1.png");
+        buy_Now_Button_view.setFitWidth(40);
+        buy_Now_Button_view.setFitHeight(30);
+        buy_Now_Button.setGraphic(buy_Now_Button_view);
+        //setting styling in the button
+        buy_Now_Button.setOnMouseEntered(e -> buy_Now_Button.setStyle(HOVERED_BUTTON_STYLE));
+        
         //add to cart
         Button add_To_Cart_Button = new Button("Add to Cart");
+        //setting image in the button
+        ImageView add_To_Cart_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/add_to_cart.png");
+        add_To_Cart_Button_view.setFitWidth(20);
+        add_To_Cart_Button_view.setFitHeight(30);
+        add_To_Cart_Button.setGraphic(add_To_Cart_Button_view);
+        //setting styling in the button
+        add_To_Cart_Button.setOnMouseEntered(e -> add_To_Cart_Button.setStyle(HOVERED_BUTTON_STYLE));
         
         footer_Bar = new HBox();
         footer_Bar.setPadding(new Insets(10));
-        footer_Bar.setSpacing(10);
+        footer_Bar.setSpacing(15);
         footer_Bar.setAlignment(Pos.CENTER);
         footer_Bar.getChildren().addAll(buy_Now_Button, add_To_Cart_Button);
         

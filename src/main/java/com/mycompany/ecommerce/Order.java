@@ -25,8 +25,7 @@ public class Order {
                 return dbConnection.update_Database(PlaceOrder) != 0;
             }
         }
-        catch(Exception e){
-            e.printStackTrace();
+        catch(SQLException e){
         }
         return false;
     }
@@ -50,4 +49,5 @@ public class Order {
         }
         return 0;
     }
+    
 }

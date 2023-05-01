@@ -20,8 +20,6 @@ import javafx.scene.layout.VBox;
  */
 public class OrderList {
     
-    private Login login_details = new Login();
-    
     private TableView<OrderedItem> order_Product;
     
     public VBox createTable(ObservableList<OrderedItem> data){
