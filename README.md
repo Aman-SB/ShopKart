@@ -1,6 +1,6 @@
 # Shopkart 
 
-Shopkart is an ecommerce application created using javafx in User-Interface , java in Backend logic and storing data in Sql database.
+Shopkart is an ecommerce application created using javafx , java , sql.
 
 Overview of project ->
 - Home Page 
