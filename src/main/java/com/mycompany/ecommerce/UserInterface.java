@@ -48,6 +48,8 @@ public class UserInterface {
     
     ProductList product_List = new ProductList();
     
+    NewLoginCustomer newLoginCustomer = new NewLoginCustomer();
+    
     VBox Product_Page;
         
     OrderList order_List = new OrderList();
@@ -98,6 +100,8 @@ public class UserInterface {
         
         Button login_Button = new Button("Login");
         
+        Button create_new_account = new Button("Create Account");
+        
         login_Page = new GridPane();
         //adding basisc utilities to login page
         login_Page.setAlignment(Pos.CENTER);
@@ -109,6 +113,7 @@ public class UserInterface {
         login_Page.add(password_PasswordField, 1, 1);
         login_Page.add(message_label, 0, 2);
         login_Page.add(login_Button, 1, 2);
+        login_Page.add(create_new_account,1, 3);
         
         login_Button.setOnAction((ActionEvent t) -> {
             String user_Name = userName_TextField.getText();
@@ -131,6 +136,63 @@ public class UserInterface {
             else{
                 message_label.setText("Login Failed !! please give correct user name and password.");
             }
+        });
+        
+        //created login for new Account
+        create_new_account.setOnAction((ActionEvent t) -> {
+            body.getChildren().clear();
+            //created functionality to add new user 
+            GridPane create_page = new GridPane();
+
+            Button created_Account = new Button("Created Account");
+
+            Text new_user_name = new Text("name");
+            Text new_user_email = new Text("email");
+            Text new_user_mobile = new Text("Mobile No.");
+            Text new_user_address = new Text("Address");
+            Text new_user_password = new Text("Password");
+
+            // username text field and password texrt field
+            TextField new_user_name_TextField = new TextField("");
+            new_user_name_TextField.setPromptText("Type your name here");
+            TextField new_user_email_TextField = new TextField("");
+            new_user_email_TextField.setPromptText("Type your email here");
+            TextField new_user_number_TextField = new TextField("");
+            new_user_number_TextField.setPromptText("Type your number here");
+            PasswordField new_user_password_PasswordField = new PasswordField();
+            new_user_password_PasswordField.setText("");
+            new_user_password_PasswordField.setPromptText("Type your passowrd here");
+            TextField new_user_address_TextField = new TextField("");
+            new_user_address_TextField.setPromptText("Type your address here");
+
+            create_page.setAlignment(Pos.CENTER);
+            create_page.setHgap(10);
+            create_page.setVgap(10);
+            create_page.add(new_user_name, 0, 0);
+            create_page.add(new_user_name_TextField , 1 ,0);
+            create_page.add(new_user_email , 0, 1);
+            create_page.add(new_user_email_TextField, 1, 1);
+            create_page.add(new_user_mobile, 0, 2);
+            create_page.add(new_user_number_TextField , 1 ,2);
+            create_page.add(new_user_address , 0, 3);
+            create_page.add(new_user_address_TextField, 1, 3);
+            create_page.add(new_user_password, 0, 4);
+            create_page.add(new_user_password_PasswordField, 1, 4);
+
+            create_page.add(created_Account,1,5);
+            body.getChildren().add(create_page);
+            
+            created_Account.setOnAction((e) -> {
+                NewCustomer newCustomer = new NewCustomer(new_user_name_TextField.getText(),new_user_email_TextField.getText(),new_user_number_TextField.getText(),new_user_password_PasswordField.getText(),new_user_address_TextField.getText());            
+                body.getChildren().clear();
+                try {
+                    NewLoginCustomer.insertNewCustomer(newCustomer);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                showDialogueSuccess("Account Created Succesfully");
+                body.getChildren().add(login_Page);
+            });
         });
    }
     
@@ -203,10 +265,19 @@ public class UserInterface {
         header_Bar.getChildren().addAll(home_Button, search_bar , search_Button , sign_in_Button , cart_Button , order_Button);
         
         //sign_in button event handler
+        if(LoggedInCustomer != null){
+            sign_in_Button.setText("Profile");
+        }
         sign_in_Button.setOnAction((t) -> {
-            body.getChildren().clear(); //remove eveything
-            body.getChildren().add(login_Page); //put login page
-            header_Bar.getChildren().remove(sign_in_Button);
+            footer_Bar.setVisible(false);//all cases need to be handled
+            if(LoggedInCustomer == null){
+                body.getChildren().clear(); //remove eveything
+                body.getChildren().add(login_Page); //put login page 
+            }else{
+                body.getChildren().clear(); //remove eveything 
+                //fetch query data from product table
+                
+            }
         });
         
         //cart button action

@@ -12,10 +12,10 @@ import java.sql.SQLException;
  * @author bisht
  */
 public class Login {
-    public Customer customerLogin(String userName,String password) throws NoSuchAlgorithmException{
+    public Customer customerLogin(String useremail,String password) throws NoSuchAlgorithmException{
         byte[] byte_password = Encryption.getSHA(password);
         String encrypted_Password = Encryption.toHexString(byte_password);
-        String login_Query = "SELECT * FROM customer WHERE email = '"+userName+"' and password ='"+encrypted_Password+"'";
+        String login_Query = "SELECT * FROM customer WHERE email = '"+useremail+"' and password ='"+encrypted_Password+"'";
         DbConnection connection = new DbConnection();
         ResultSet result = connection.getQueryTable(login_Query);
         try{

@@ -19,6 +19,17 @@ public class DbConnection {
     
     private final String password = "1234" ;
     
+    public PreparedStatement getPreparedStatement(){
+        try{
+            Connection connection = DriverManager.getConnection(database_Url , userName , password);
+            String query = "INSERT INTO customer (name,email,mobile,password,address) VALUES(?,?,?,?,?)";
+            return connection.prepareStatement(query);
+        }
+        catch(SQLException e){ 
+        }
+        return null;
+    }
+    
     private Statement getStatement(){
         try{
             Connection connection = DriverManager.getConnection(database_Url , userName , password);
