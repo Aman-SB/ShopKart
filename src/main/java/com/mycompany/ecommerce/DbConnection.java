@@ -19,7 +19,7 @@ public class DbConnection {
     
     private final String password = "1234" ;
     
-    public PreparedStatement getPreparedStatement(){
+    public PreparedStatement getPreparedStatementNewLogin(){
         try{
             Connection connection = DriverManager.getConnection(database_Url , userName , password);
             String query = "INSERT INTO customer (name,email,mobile,password,address) VALUES(?,?,?,?,?)";
@@ -29,7 +29,7 @@ public class DbConnection {
         }
         return null;
     }
-    
+ 
     private Statement getStatement(){
         try{
             Connection connection = DriverManager.getConnection(database_Url , userName , password);
@@ -55,9 +55,9 @@ public class DbConnection {
             Statement statement = getStatement();
             return statement.executeUpdate(query);
         }
-        catch(SQLException e){
+        catch(SQLException e){  
+            return 0;
         }
-        return 0;
     }
     
     public static void main(String[] args) {

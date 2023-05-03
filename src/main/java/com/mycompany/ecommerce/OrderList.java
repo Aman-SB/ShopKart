@@ -67,4 +67,9 @@ public class OrderList {
         return createTable(data);
     }
     
+    //here only selected data can be seen
+    public OrderedItem getSelectedOrder(){
+        return order_Product.getSelectionModel().getSelectedItem();
+    }
+    
 }

@@ -48,18 +48,27 @@ public class UserInterface {
     
     ProductList product_List = new ProductList();
     
-    NewLoginCustomer newLoginCustomer = new NewLoginCustomer();
-    
     VBox Product_Page;
         
     OrderList order_List = new OrderList();
     
     Button place_Order_Button = new Button("Place Order");
     
+    Product product_Show_on_cart;
+    
+    OrderedItem order_Show_on_cart;
+    
+    Button remove_Item;
+    
     final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
+    
+    String green_Style = "-fx-background-color: linear-gradient(#f0ff35, #a9ff00),radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;";
     
     //extracting data of product
     ObservableList<Product> item_In_A_Cart = FXCollections.observableArrayList();
+    
+    ObservableList<OrderedItem> order_In_A_Cart = FXCollections.observableArrayList();
+
         
     public BorderPane createContent(){
         //main pane (screen)
@@ -218,11 +227,12 @@ public class UserInterface {
         //search text button
         Button search_Button = new Button("Search");
         //setting image in the button
-        ImageView search_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/pngegg.png");
-        search_Button_view.setFitWidth(20);
-        search_Button_view.setFitHeight(20);
-        search_Button.setGraphic(search_Button_view);
+//        ImageView search_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/pngegg.png");
+//        search_Button_view.setFitWidth(20);
+//        search_Button_view.setFitHeight(20);
+//        search_Button.setGraphic(search_Button_view);
         //setting styling in the button
+        search_Button.setStyle(green_Style);
         search_Button.setOnMouseEntered(e -> search_Button.setStyle(HOVERED_BUTTON_STYLE));
         
         //Sign IN button 
@@ -265,18 +275,15 @@ public class UserInterface {
         header_Bar.getChildren().addAll(home_Button, search_bar , search_Button , sign_in_Button , cart_Button , order_Button);
         
         //sign_in button event handler
-        if(LoggedInCustomer != null){
-            sign_in_Button.setText("Profile");
-        }
         sign_in_Button.setOnAction((t) -> {
             footer_Bar.setVisible(false);//all cases need to be handled
             if(LoggedInCustomer == null){
                 body.getChildren().clear(); //remove eveything
                 body.getChildren().add(login_Page); //put login page 
-            }else{
-                body.getChildren().clear(); //remove eveything 
-                //fetch query data from product table
-                
+                footer_Bar.setVisible(true);//all cases need to be handled
+                sign_in_Button.setText("Profile");
+//                set the imagiview for profile
+//                adding the profile functionlity here
             }
         });
         
@@ -346,9 +353,29 @@ public class UserInterface {
                 showDialogueError("Please ordered something !!");
                 return;
             }
+            //remove item 
+            remove_Item = new Button("Remove");
+            ordered_Page_Extraction.setSpacing(10);
+            ordered_Page_Extraction.getChildren().add(remove_Item);
+            ordered_Page_Extraction.setAlignment(Pos.CENTER);
+            remove_Item.setAlignment(Pos.CENTER);
             body.getChildren().add(ordered_Page_Extraction);
             footer_Bar.setVisible(false);
         });
+        
+//        remove_Item.setOnAction((t) -> {
+//            //take out selected product 
+//            //make a new list and after updatin new list push that element into old list
+//            
+//            
+//            order_Show_on_cart = order_List.getSelectedOrder();
+//            if(order_Show_on_cart == null){
+//                showDialogueError("please select a order to delete");
+//                return;
+//            } 
+//            order_In_A_Cart.add(order_Show_on_cart);
+//            showDialogueSuccess("Selected Item has been removed from the cart Succesfully.");
+//        });
    }
     
     private void createFooterBar(){ //creation of footer bar
@@ -390,6 +417,7 @@ public class UserInterface {
                 showDialogueError("please login first to placed a order!");
                 return;
             }
+            
             boolean order_Status = Order.placeOrder(LoggedInCustomer, product);
             
             if(order_Status){
@@ -401,13 +429,13 @@ public class UserInterface {
         });
         
         add_To_Cart_Button.setOnAction((t) -> {
-            Product product = product_List.getSelectedProduct();
-            if(product == null){
+            product_Show_on_cart = product_List.getSelectedProduct();
+            if(product_Show_on_cart == null){
                 //please select a product to placed a order
                 showDialogueError("please select a product first to add it to cart!");
                 return;
             }
-            item_In_A_Cart.add(product);
+            item_In_A_Cart.add(product_Show_on_cart);
             showDialogueSuccess("Selected Item has been added to the cart Succesfully.");
         });
    }

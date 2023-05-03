@@ -21,7 +21,7 @@ show tables;
 
 select * from customer;
 
-delete from customer where id = 30;
+delete from customer where id = 36;
 
 alter table customer add unique(email);
 
@@ -49,17 +49,31 @@ SELECT id,name,price FROM product;
 
 SELECT * from product;
 
+UPDATE product
+SET quantity = 1
+WHERE CustomerID = 1;
+
+SELECT MAX(group_order_id) +1 id FROM orders;
+
 delete from product where id = 2;
 
 -- orders tables
 
 SELECT * FROM orders;
 
+SELECT id , quantity from product ;
+
+SELECT * from product;
+
+SELECT * from orders GROUP BY group_order_id HAVING group_order_id = max(group_order_id);
+
 INSERT INTO orders(group_order_id,customer_id,product_id) VALUES (1,1,1);
 
 SELECT MAX(group_order_id) +1 id FROM orders;
 
 SELECT orders.id , product.name , product.price , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id WHERE orders.customer_id = 1 ;
+
+UPDATE product SET quantity = 13000 where id = 7;
 
 -- deactivating safe mode
 

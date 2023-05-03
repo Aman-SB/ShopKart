@@ -20,7 +20,7 @@ public class NewLoginCustomer {
         String encrypted_Password = Encryption.toHexString(byte_password);
         try{
             DbConnection connection = new DbConnection();
-            PreparedStatement psmt= connection.getPreparedStatement();
+            PreparedStatement psmt= connection.getPreparedStatementNewLogin();
             psmt.setString(1, customer.getName());
             psmt.setString(2, customer.getEmail());
             psmt.setString(3, customer.getMobile());

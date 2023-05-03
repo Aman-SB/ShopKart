@@ -14,7 +14,24 @@ import javafx.collections.ObservableList;
  */
 public class Order {
     
-    //method if we place order
+    public static int newQuantity ;
+    
+    //updating the product quantity when ordered
+    public static void buyUpate(Customer customer,int product_id) throws SQLException{          
+        String query = "SELECT quantity from product where id = "+product_id+" ";
+        DbConnection connection = new DbConnection();
+        try{
+            ResultSet result = connection.getQueryTable(query);
+            if(result.next()){
+                newQuantity = result.getInt("quantity") - 1;
+                String buyUpdate = "UPDATE product SET quantity = "+newQuantity+" WHERE id = "+product_id+" ";
+                connection.update_Database(buyUpdate) ;
+            }
+        }
+        catch(SQLException e){
+        }
+    }
+    //method if we place order    //method if we place order
     public static boolean placeOrder(Customer customer, Product product){
         String group_Order_Id = "SELECT MAX(group_order_id) +1 id FROM orders";
         DbConnection dbConnection = new DbConnection();
@@ -22,6 +39,7 @@ public class Order {
             ResultSet result = dbConnection.getQueryTable(group_Order_Id);
             if(result.next()){
                 String PlaceOrder = "INSERT INTO orders(group_order_id,customer_id,product_id) VALUES ("+result.getInt("id")+","+customer.getId()+","+product.getId()+")";
+                buyUpate(customer,product.getId());
                 return dbConnection.update_Database(PlaceOrder) != 0;
             }
         }
