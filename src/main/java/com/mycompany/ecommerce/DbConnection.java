@@ -29,7 +29,17 @@ public class DbConnection {
         }
         return null;
     }
- 
+    
+    public Connection connectingdb(){
+        try{
+            Connection connection = DriverManager.getConnection(database_Url , userName , password);
+            return connection;
+        }
+        catch(SQLException e){ 
+        }
+        return null;
+    }
+    
     private Statement getStatement(){
         try{
             Connection connection = DriverManager.getConnection(database_Url , userName , password);

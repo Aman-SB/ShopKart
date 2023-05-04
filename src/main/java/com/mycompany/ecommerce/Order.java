@@ -17,7 +17,7 @@ public class Order {
     public static int newQuantity ;
     
     //updating the product quantity when ordered
-    public static void buyUpate(Customer customer,int product_id) throws SQLException{          
+    public static void buyUpate(int product_id) throws SQLException{          
         String query = "SELECT quantity from product where id = "+product_id+" ";
         DbConnection connection = new DbConnection();
         try{
@@ -39,7 +39,7 @@ public class Order {
             ResultSet result = dbConnection.getQueryTable(group_Order_Id);
             if(result.next()){
                 String PlaceOrder = "INSERT INTO orders(group_order_id,customer_id,product_id) VALUES ("+result.getInt("id")+","+customer.getId()+","+product.getId()+")";
-                buyUpate(customer,product.getId());
+                buyUpate(product.getId());
                 return dbConnection.update_Database(PlaceOrder) != 0;
             }
         }
@@ -58,6 +58,7 @@ public class Order {
             if(result.next()){
                 for(Product product : product_List){
                 String PlaceOrder = "INSERT INTO orders(group_order_id,customer_id,product_id) VALUES ("+result.getInt("id")+","+customer.getId()+","+product.getId()+")";
+                buyUpate(product.getId());
                 count_Product += dbConnection.update_Database(PlaceOrder);
                 }
                 return count_Product;

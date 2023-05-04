@@ -53,8 +53,8 @@ public class OrderList {
         return vBox;
     }
     
-    public VBox getAllProducts(int cust_id){ 
-        ResultSet result = OrderedItem.getAllOrdered(cust_id);
+    public VBox getAllProducts(int cust_id,int delete_id) throws SQLException{ 
+        ResultSet result = OrderedItem.getAllOrdered(cust_id,delete_id);
         ObservableList<OrderedItem> data = FXCollections.observableArrayList();
         try{
             while(result.next()){

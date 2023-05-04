@@ -5,11 +5,13 @@
 package com.mycompany.ecommerce;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -56,9 +58,15 @@ public class UserInterface {
     
     Product product_Show_on_cart;
     
-    OrderedItem order_Show_on_cart;
+    VBox ordered_Page_Extraction;
+    
+    VBox order_section;
     
     Button remove_Item;
+    
+    NewCustomer newCustomer;
+    
+    boolean flag_Remove;
     
     final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
     
@@ -192,7 +200,7 @@ public class UserInterface {
             body.getChildren().add(create_page);
             
             created_Account.setOnAction((e) -> {
-                NewCustomer newCustomer = new NewCustomer(new_user_name_TextField.getText(),new_user_email_TextField.getText(),new_user_number_TextField.getText(),new_user_password_PasswordField.getText(),new_user_address_TextField.getText());            
+                newCustomer = new NewCustomer(new_user_name_TextField.getText(),new_user_email_TextField.getText(),new_user_number_TextField.getText(),new_user_password_PasswordField.getText(),new_user_address_TextField.getText());            
                 body.getChildren().clear();
                 try {
                     NewLoginCustomer.insertNewCustomer(newCustomer);
@@ -227,12 +235,12 @@ public class UserInterface {
         //search text button
         Button search_Button = new Button("Search");
         //setting image in the button
-//        ImageView search_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/pngegg.png");
-//        search_Button_view.setFitWidth(20);
-//        search_Button_view.setFitHeight(20);
-//        search_Button.setGraphic(search_Button_view);
-        //setting styling in the button
-        search_Button.setStyle(green_Style);
+        ImageView search_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/pngegg.png");
+        search_Button_view.setFitWidth(20);
+        search_Button_view.setFitHeight(20);
+        search_Button.setGraphic(search_Button_view);
+//        setting styling in the button
+//        search_Button.setStyle(green_Style);
         search_Button.setOnMouseEntered(e -> search_Button.setStyle(HOVERED_BUTTON_STYLE));
         
         //Sign IN button 
@@ -274,6 +282,19 @@ public class UserInterface {
         header_Bar.setAlignment(Pos.CENTER);
         header_Bar.getChildren().addAll(home_Button, search_bar , search_Button , sign_in_Button , cart_Button , order_Button);
         
+        //search button
+        search_Button.setOnAction((t) -> {
+            String search_text = search_bar.getText();
+            if(search_text != null){
+                VBox extrating_search= product_List.gettingVBoxSearch(search_text);
+                body.getChildren().clear();
+                body.getChildren().add(extrating_search);                
+            }
+            else{
+                body.getChildren().add(Product_Page);
+            }
+        });
+        
         //sign_in button event handler
         sign_in_Button.setOnAction((t) -> {
             footer_Bar.setVisible(false);//all cases need to be handled
@@ -281,9 +302,13 @@ public class UserInterface {
                 body.getChildren().clear(); //remove eveything
                 body.getChildren().add(login_Page); //put login page 
                 footer_Bar.setVisible(true);//all cases need to be handled
-                sign_in_Button.setText("Profile");
-//                set the imagiview for profile
-//                adding the profile functionlity here
+                sign_in_Button.setText("SignOut");
+            }
+            else{
+                LoggedInCustomer = null;
+                welcome_Label.setText("");
+                sign_in_Button.setText("SignIn");
+                footer_Bar.setVisible(true);
             }
         });
         
@@ -339,44 +364,73 @@ public class UserInterface {
         });
         
         //order button action
-        order_Button.setOnAction((var t) -> {
+        order_Button.setOnAction((ActionEvent t) -> {
+            flag_Remove = false;
             if(LoggedInCustomer == null){
                 showDialogueError("please login first to placed a order!");
                 return;
             }
             body.getChildren().clear();
-            //extracting data from database and setting into vertical box
-            VBox ordered_Page_Extraction = order_List.getAllProducts(LoggedInCustomer.getId());
+            order_section = new VBox();
+            try {
+                //extracting data from database and setting into vertical box
+                ordered_Page_Extraction = order_List.getAllProducts(LoggedInCustomer.getId(),0);
+            } catch (SQLException ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             if(ordered_Page_Extraction == null)
             {
                 showDialogueError("Please ordered something !!");
                 return;
             }
-            //remove item 
-            remove_Item = new Button("Remove");
-            ordered_Page_Extraction.setSpacing(10);
-            ordered_Page_Extraction.getChildren().add(remove_Item);
-            ordered_Page_Extraction.setAlignment(Pos.CENTER);
+            //remove item
+            order_section.getChildren().add(ordered_Page_Extraction);
+            remove_Item = new Button("Canceled");
+            order_section.setSpacing(10);
+            order_section.getChildren().add(remove_Item);
+            order_section.setAlignment(Pos.CENTER);
             remove_Item.setAlignment(Pos.CENTER);
-            body.getChildren().add(ordered_Page_Extraction);
+            body.getChildren().add(order_section);
             footer_Bar.setVisible(false);
-        });
-        
-//        remove_Item.setOnAction((t) -> {
-//            //take out selected product 
-//            //make a new list and after updatin new list push that element into old list
-//            
-//            
-//            order_Show_on_cart = order_List.getSelectedOrder();
-//            if(order_Show_on_cart == null){
-//                showDialogueError("please select a order to delete");
-//                return;
-//            } 
-//            order_In_A_Cart.add(order_Show_on_cart);
-//            showDialogueSuccess("Selected Item has been removed from the cart Succesfully.");
-//        });
+            
+            
+            remove_Item.setOnAction((ActionEvent e) -> {
+                body.getChildren().clear();
+                order_section.getChildren().clear();
+                OrderedItem deleted_item = order_List.getSelectedOrder();
+                if(deleted_item != null){
+                    int delete_id = deleted_item.getId();
+                    try {
+                        ordered_Page_Extraction = order_List.getAllProducts(LoggedInCustomer.getId(),delete_id);
+                        showDialogueSuccess("Your order is canceled");
+                        flag_Remove=true;
+                        rerenderPage();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            if(flag_Remove == true){
+                body.getChildren().clear();
+                order_section.getChildren().clear();
+            }
+        });  
    }
+    
+    private void rerenderPage(){
+        if(flag_Remove == true){
+                order_section.getChildren().add(ordered_Page_Extraction);
+                remove_Item = new Button("Canceled");
+                order_section.setSpacing(10);
+                order_section.getChildren().add(remove_Item);
+                order_section.setAlignment(Pos.CENTER);
+                remove_Item.setAlignment(Pos.CENTER);
+                body.getChildren().add(order_section);
+                footer_Bar.setVisible(false);
+            }
+    }
+    
     
     private void createFooterBar(){ //creation of footer bar
                 

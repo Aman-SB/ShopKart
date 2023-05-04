@@ -4,8 +4,11 @@
  */
 package com.mycompany.ecommerce;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -39,10 +42,27 @@ public class OrderedItem {
         this.status = new SimpleStringProperty(status);
     }
     
-    public static ResultSet getAllOrdered(int cust_id){
+    public static ResultSet getAllOrdered(int cust_id ,int delete_id) throws SQLException{
+        if(delete_id != 0){
+            Connection con;
+            PreparedStatement p;
+           DbConnection dbConnection = new DbConnection();
+            con = dbConnection.connectingdb();
+            try{
+                String sql="delete from orders where id = "+delete_id+"";
+                 p =con.prepareStatement(sql);
+                 p.execute();
+                 
+            }catch(SQLException  e){
+                System.out.println("error");
+                System.out.println(e);
+
+            }
+        }
         String select_All_Orders = "SELECT orders.id , product.name , product.price , orders.quantity , orders.order_date , orders.order_status  FROM orders JOIN product ON orders.product_id = product.id WHERE orders.customer_id = '"+cust_id+"'";
         return fetchProductionDataFromDB(select_All_Orders);
     }
+    
     
     public static ResultSet fetchProductionDataFromDB(String query){
         DbConnection dbConnection = new DbConnection();

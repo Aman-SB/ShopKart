@@ -36,6 +36,11 @@ public class Product {
         return fetchProductionDataFromDB(select_All_Products);
     }
     
+    public static ObservableList<Product> getAllSearchProduct(String search_text){
+        String select_All_Products = "SELECT * FROM product where name LIKE '"+search_text+"%';";
+        return fetchProductionDataFromDB(select_All_Products);
+    }
+    
     //fetching data using query
     public static ObservableList<Product> fetchProductionDataFromDB(String query){
         ObservableList<Product> data = FXCollections.observableArrayList();

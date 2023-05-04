@@ -49,6 +49,11 @@ public class ProductList {
         return createTable(data);
     }
     
+    public VBox gettingVBoxSearch(String search_text){
+        ObservableList<Product> data = Product.getAllSearchProduct(search_text);
+        return createTable(data);
+    }
+    
     //here only selected data can be seen
     public Product getSelectedProduct(){
         return product_Table.getSelectionModel().getSelectedItem();
