@@ -44,6 +44,14 @@ INSERT INTO product(name,price,quantity) values('Sony Bravia 139 cm (55 inches) 
 INSERT INTO product(name,price,quantity) values('Lloyd 1.5 Ton 3 Star Inverter Split AC ',58990,48352);
 INSERT INTO product(name,price,quantity) values('Samsung 192 L 2 Star Direct Cool Single Door Refrigerator',19990,84372);
 INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
+INSERT INTO product(name,price,quantity) values('',,);
 
 SELECT id,name,price FROM product;
 
@@ -92,3 +100,13 @@ UPDATE customer SET password = "0ffe1abd1a08215353c233d6e009613e95eec4253832a761
 SET SQL_SAFE_UPDATES = 1;
 
 UPDATE customer SET name = "Ajay" where id = 3 ;
+
+-- order delete
+
+select * from orders;
+
+select * from product;
+
+ALTER TABLE product DROP COLUMN descrption;
+
+DELETE FROM orders WHERE id = 43;

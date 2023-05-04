@@ -68,9 +68,9 @@ public class UserInterface {
     
     boolean flag_Remove;
     
-    final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
+    final String button_Style = "-fx-border-color: linear-gradient(#f0ff35, #a9ff00),radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-border-size : 2px; ";
     
-    String green_Style = "-fx-background-color: linear-gradient(#f0ff35, #a9ff00),radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;";
+    final String HOVERED_BUTTON_STYLE = "-fx-background-color: linear-gradient(#f0ff35, #a9ff00),radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;";
     
     //extracting data of product
     ObservableList<Product> item_In_A_Cart = FXCollections.observableArrayList();
@@ -116,8 +116,15 @@ public class UserInterface {
         Label message_label = new Label("Hi");
         
         Button login_Button = new Button("Login");
+        //        setting styling in the button
+        login_Button.setStyle(button_Style);
+        login_Button.setOnMouseEntered(e -> login_Button.setStyle(HOVERED_BUTTON_STYLE));
+        login_Button.setOnMouseExited(e -> login_Button.setStyle(button_Style));
         
         Button create_new_account = new Button("Create Account");
+        create_new_account.setStyle(button_Style);
+        create_new_account.setOnMouseEntered(e -> create_new_account.setStyle(HOVERED_BUTTON_STYLE));
+        create_new_account.setOnMouseExited(e -> create_new_account.setStyle(button_Style));
         
         login_Page = new GridPane();
         //adding basisc utilities to login page
@@ -161,7 +168,11 @@ public class UserInterface {
             //created functionality to add new user 
             GridPane create_page = new GridPane();
 
-            Button created_Account = new Button("Created Account");
+            Button created_Account = new Button("Register");
+            //setting styling in the button
+            created_Account.setStyle(button_Style);
+            created_Account.setOnMouseEntered(e -> created_Account.setStyle(HOVERED_BUTTON_STYLE));
+            created_Account.setOnMouseExited(e -> created_Account.setStyle(button_Style));
 
             Text new_user_name = new Text("name");
             Text new_user_email = new Text("email");
@@ -240,8 +251,9 @@ public class UserInterface {
         search_Button_view.setFitHeight(20);
         search_Button.setGraphic(search_Button_view);
 //        setting styling in the button
-//        search_Button.setStyle(green_Style);
+        search_Button.setStyle(button_Style);
         search_Button.setOnMouseEntered(e -> search_Button.setStyle(HOVERED_BUTTON_STYLE));
+        search_Button.setOnMouseExited(e -> search_Button.setStyle(button_Style));
         
         //Sign IN button 
         sign_in_Button = new Button("Sign In");
@@ -251,8 +263,10 @@ public class UserInterface {
         sign_in_view.setFitHeight(20);
         sign_in_Button.setGraphic(sign_in_view);
         //setting styling in the button
+        sign_in_Button.setStyle(button_Style);
         sign_in_Button.setOnMouseEntered(e -> sign_in_Button.setStyle(HOVERED_BUTTON_STYLE));
-        
+        sign_in_Button.setOnMouseExited(e -> sign_in_Button.setStyle(button_Style));
+
         welcome_Label = new Label();
         
         //CART BUTTON
@@ -263,7 +277,9 @@ public class UserInterface {
         cart_Button_view.setFitHeight(20);
         cart_Button.setGraphic(cart_Button_view);
         //setting styling in the button
+        cart_Button.setStyle(button_Style);
         cart_Button.setOnMouseEntered(e -> cart_Button.setStyle(HOVERED_BUTTON_STYLE));
+        cart_Button.setOnMouseExited(e -> cart_Button.setStyle(button_Style));
         
         //ORDER BUTTON
         Button order_Button = new Button("Orders");
@@ -273,10 +289,13 @@ public class UserInterface {
         order_Button_view.setFitHeight(20);
         order_Button.setGraphic(order_Button_view);
         //setting styling in the button
+        order_Button.setStyle(button_Style);
         order_Button.setOnMouseEntered(e -> order_Button.setStyle(HOVERED_BUTTON_STYLE));
+        order_Button.setOnMouseExited(e -> order_Button.setStyle(button_Style));
         
         //Header bar
         header_Bar = new HBox();
+        header_Bar.setStyle("-fx-background-color: #ADFF2F ; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 ); -fx-text-fill: #395306;");
         header_Bar.setPadding(new Insets(10));
         header_Bar.setSpacing(15);
         header_Bar.setAlignment(Pos.CENTER);
@@ -318,6 +337,7 @@ public class UserInterface {
            VBox product_Page = product_List.createTable(item_In_A_Cart);
            product_Page.setAlignment(Pos.CENTER);
            product_Page.getChildren().add(place_Order_Button);
+           product_Page.setSpacing(10);
            body.getChildren().add(product_Page);
            //adding image to place order button
            ImageView place_Order_Button_view = new ImageView("file:///E:/Java/learning_application/Ecommerce/src/main/icons/place_orders.png");
@@ -325,7 +345,9 @@ public class UserInterface {
            place_Order_Button_view.setFitHeight(20);
            place_Order_Button.setGraphic(place_Order_Button_view);
            //setting styling in the button
-           order_Button.setOnMouseEntered(e -> order_Button.setStyle(HOVERED_BUTTON_STYLE));
+           place_Order_Button.setStyle(button_Style);
+           place_Order_Button.setOnMouseEntered(e -> order_Button.setStyle(HOVERED_BUTTON_STYLE));
+           place_Order_Button.setOnMouseExited(e -> place_Order_Button.setStyle(button_Style));
            footer_Bar.setVisible(false);//all cases need to be handled
         });
         
@@ -387,6 +409,11 @@ public class UserInterface {
             //remove item
             order_section.getChildren().add(ordered_Page_Extraction);
             remove_Item = new Button("Canceled");
+            //setting styling in the button
+            remove_Item.setStyle(button_Style);
+            remove_Item.setOnMouseEntered(e -> remove_Item.setStyle(HOVERED_BUTTON_STYLE));
+            remove_Item.setOnMouseExited(e -> remove_Item.setStyle(button_Style));
+            
             order_section.setSpacing(10);
             order_section.getChildren().add(remove_Item);
             order_section.setAlignment(Pos.CENTER);
@@ -411,6 +438,7 @@ public class UserInterface {
                     }
                 }
             });
+            
             if(flag_Remove == true){
                 body.getChildren().clear();
                 order_section.getChildren().clear();
@@ -428,7 +456,7 @@ public class UserInterface {
                 remove_Item.setAlignment(Pos.CENTER);
                 body.getChildren().add(order_section);
                 footer_Bar.setVisible(false);
-            }
+        }
     }
     
     
@@ -442,7 +470,9 @@ public class UserInterface {
         buy_Now_Button_view.setFitHeight(30);
         buy_Now_Button.setGraphic(buy_Now_Button_view);
         //setting styling in the button
+        buy_Now_Button.setStyle(button_Style);
         buy_Now_Button.setOnMouseEntered(e -> buy_Now_Button.setStyle(HOVERED_BUTTON_STYLE));
+        buy_Now_Button.setOnMouseExited(e -> buy_Now_Button.setStyle(button_Style));
         
         //add to cart
         Button add_To_Cart_Button = new Button("Add to Cart");
@@ -452,7 +482,9 @@ public class UserInterface {
         add_To_Cart_Button_view.setFitHeight(30);
         add_To_Cart_Button.setGraphic(add_To_Cart_Button_view);
         //setting styling in the button
+        add_To_Cart_Button.setStyle(button_Style);
         add_To_Cart_Button.setOnMouseEntered(e -> add_To_Cart_Button.setStyle(HOVERED_BUTTON_STYLE));
+        add_To_Cart_Button.setOnMouseExited(e -> add_To_Cart_Button.setStyle(button_Style));
         
         footer_Bar = new HBox();
         footer_Bar.setPadding(new Insets(10));
