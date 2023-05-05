@@ -21,7 +21,13 @@ show tables;
 
 select * from customer;
 
-delete from customer where id = 36;
+-- to disable them
+SET FOREIGN_KEY_CHECKS=0; 
+
+-- to enable them
+SET FOREIGN_KEY_CHECKS=1;
+
+delete from customer where id = 38;
 
 alter table customer add unique(email);
 
